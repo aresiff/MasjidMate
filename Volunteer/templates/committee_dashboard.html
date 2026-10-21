@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Committee Dashboard</title>
+  {% load static %}
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #fff3e0, #ffe0b2);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header styling */
+    header {
+      background-color: #ef6c00;
+      color: white;
+      padding: 20px 30px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    #menu {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 28px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .header-title {
+      font-size: 26px;
+      margin: 5px 0;
+      font-weight: bold;
+      display: inline-block;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .header-subtext {
+      display: block;
+      font-size: 14px;
+      font-style: italic;
+      color: #bbdefb;
+      margin-top: 4px;
+      transition: color 0.3s ease;  
+    }
+
+  /* Animated underline effect on hover */
+    .header-title:hover,
+    .header-subtext:hover,
+    footer:hover {
+      color: #ffeb3b;
+    }
+
+    .header-title::after,
+    .header-subtext::after,
+    footer span::after {
+      content: '';
+      display: block;
+      margin: 4px auto 0;
+      width: 0;
+      height: 2px;
+      background: #ffeb3b;
+      transition: width 0.4s;
+    }
+
+    .header-title:hover::after,
+    .header-subtext:hover::after,
+    footer span:hover::after {
+      width: 100%;
+    }
+
+    /* Footer styling */
+    footer {
+      background-color: #ef6c00;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 14px;
+      margin-top: auto;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    footer span {
+      display: inline-block;
+      position: relative;
+      cursor: default;
+    }
+
+    /* Sidebar */
+    #sidenav {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #ef6c00;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+    }
+
+    #sidenav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 20px;
+      display: block;
+      padding: 12px 24px;
+      transition: background-color 0.2s ease;
+    }
+
+    #sidenav a:hover {
+      background-color: #e65100;
+      color: yellow;
+    }
+
+    .hrsidenav {
+      width: 80%;
+      margin: 10px auto;
+      border: 1px solid #bbdefb;
+    }
+
+    #menu {
+      font-size: 32px;
+      cursor: pointer;
+      color: white;
+      padding: 20px;
+    }
+
+    #closebtn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 30px;
+      cursor: pointer;
+      color: white;
+    }
+
+
+    /* Main Content*/
+    .main-content {
+      margin-left: 50px;
+      padding: 60px 30px;
+    }
+
+    .welcome-message {
+      font-size: 30px;
+      font-weight: bold;
+      color: #ef6c00;
+      margin-bottom: 40px;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .nav-card {
+      background-color: white;
+      border-left: 6px solid #ef6c00;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      flex: 1 1 300px;
+      max-width: 400px;
+      transition: transform 0.2s ease;
+    }
+
+    .nav-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .nav-card h3 {
+      color: #ef6c00;
+      margin-bottom: 10px;
+    }
+
+    .nav-btn {
+      background-color: #ef6c00;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .nav-btn:hover {
+      background-color: #e65100;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 20px;
+        padding: 20px;
+      }
+
+      .card-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <span id="menu" onclick="open_nav()">&#9776;</span>
+  <h1 class="header-title">MasjidMate Committee Panel</h1>
+  <span class="header-subtext">Masjid Bandar Baru Senawang</span>
+</header>
+
+<!-- Sidebar -->
+<div id="sidenav">
+  <span id="closebtn" onclick="closebtn()">&times;</span>
+  <hr class="hrsidenav">
+  <a href="{% url 'committee_profile' %}">👤 My Profile</a>
+  <hr class="hrsidenav">
+  <a href="{% url 'committee_historyEvent' %}">🕘 View All Events</a>
+  <hr class="hrsidenav">
+  <a href="{% url 'homepage' %}">🚪 Logout</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+  <p class="welcome-message">👋 Welcome, {{ committee.name }}!</p>
+
+  <div class="card-container">
+    <div class="nav-card">
+      <h3>✅ Approve Applications</h3>
+      <p>Review and approve volunteer sign-ups.</p>
+      <form action="{% url 'committee_approveVol' %}">
+        <button class="nav-btn">Approve Volunteers</button>
+      </form>
+    </div>
+
+    <div class="nav-card">
+      <h3>📊 Record Performance</h3>
+      <p>Track volunteer attendance and give tokens.</p>
+      <form action="{% url 'committee_recordperformance' %}">
+        <button class="nav-btn">Record Performance</button>
+      </form>
+    </div>
+
+    <div class="nav-card">
+      <h3>🕌 Create Mosque Event</h3>
+      <p>Plan new events and define their tasks.</p>
+      <form action="{% url 'committee_recordevent' %}">
+        <button class="nav-btn">Record Event</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>📍 271, Jalan Bdr Senawang 20, Pusat Bandar Senawang, 70450 Seremban, Negeri Sembilan</span><br>
+  <span>📞 017-620 4579</span>
+</footer>
+
+
+<script>
+  function open_nav() {
+    document.getElementById('sidenav').style.width = '250px';
+  }
+
+  function closebtn() {
+    document.getElementById('sidenav').style.width = '0';
+  }
+</script>
+
+</body>
+</html>

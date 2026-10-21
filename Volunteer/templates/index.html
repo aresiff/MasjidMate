@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MasjidMate - Homepage</title>
+  {% load static %}
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url("{% static 'masjid.jpg' %}") no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 50px 40px;
+      border-radius: 20px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #2e7d32;
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      font-size: 16px;
+      color: #666;
+      font-style: italic;
+      margin-bottom: 25px;
+    }
+
+    .role-text {
+      font-size: 18px;
+      margin-bottom: 25px;
+      color: #444;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 26px;
+      margin: 10px 5px;
+      font-size: 17px;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-admin {
+      background-color: #1e88e5;
+    }
+
+    .btn-admin:hover {
+      background-color: #1565c0;
+    }
+
+    .btn-committee {
+      background-color: #fb8c00;
+    }
+
+    .btn-committee:hover {
+      background-color: #ef6c00;
+    }
+
+    .btn-volunteer {
+      background-color: #43a047;
+    }
+
+    .btn-volunteer:hover {
+      background-color: #2e7d32;
+    }
+
+    .emoji {
+      font-size: 22px;
+      margin-right: 8px;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      .btn {
+        width: 100%;
+        margin: 10px 0;
+        font-size: 16px;
+      }
+
+      .container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MasjidMate</h1>
+    <p class="tagline">“Your Trusted Partner in Volunteer Coordination”</p>
+    <p class="role-text">Please select your role to proceed:</p>
+
+    <a href="{% url 'adminlogin' %}" class="btn btn-admin">
+      <span class="emoji">🛠️</span> Admin Login
+    </a>
+    <a href="{% url 'committeelogin' %}" class="btn btn-committee">
+      <span class="emoji">📋</span> Committee Login
+    </a>
+    <a href="{% url 'volunteerlogin' %}" class="btn btn-volunteer">
+      <span class="emoji">🤝</span> Volunteer Login
+    </a>
+  </div>
+</body>
+</html>

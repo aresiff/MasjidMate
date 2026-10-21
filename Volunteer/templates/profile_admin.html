@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 500px;
+            background-color: white;
+            padding: 30px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #0d47a1;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .btn {
+            background-color: #1565c0;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            margin-top: 20px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0d47a1;
+        }
+
+        .message {
+            text-align: center;
+            color: green;
+            font-weight: bold;
+        }
+
+
+        /* Back Button */
+        .back-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 30px 0;
+        }
+        
+        .circle-back {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 48px;
+        height: 48px;
+        background-color: #1565c0;
+        color: white;
+        font-size: 20px;
+        text-decoration: none;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        .circle-back:hover {
+        background-color: #11529c;
+        transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>My Profile</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" name="name" value="{{ admin.name }}" required>
+
+        <label for="position">Position:</label>
+        <input type="text" name="position" value="{{ admin.position }}" required>
+
+        <label for="contactno">Contact No:</label>
+        <input type="text" name="contactno" value="{{ admin.contactno }}" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" value="{{ admin.email }}" required>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" value="{{ admin.password }}" required>
+
+        <button type="submit" class="btn">Update Profile</button>
+
+        <!-- Back Button -->
+        <div class="back-container">
+            <a href="{% url 'admin_dashboard' %}" class="circle-back" title="Back Button">←</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

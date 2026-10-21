@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile - Committee</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff3e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .form-box {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 500px;
+        }
+
+        h2 {
+            color: #ef6c00;
+            text-align: center;
+        }
+
+        input, textarea {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .btn {
+            background-color: #ef6c00;
+            color: white;
+            padding: 12px;
+            border: none;
+            width: 100%;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #e65100;
+        }
+
+        /* Back Button */
+        .back-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 30px 0;
+        }
+        
+        .circle-back {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 48px;
+        height: 48px;
+        background-color: #ef6c00;
+        color: white;
+        font-size: 20px;
+        text-decoration: none;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        .circle-back:hover {
+        background-color: #d84315;
+        transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-box">
+    <h2>My Profile</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Name" value="{{ committee.name }}" required>
+        <input type="text" name="position" placeholder="Position" value="{{ committee.position }}" required>
+        <input type="text" name="contactno" placeholder="Contact No" value="{{ committee.contactno }}" required>
+        <input type="email" name="email" placeholder="Email" value="{{ committee.email }}" required>
+        <input type="text" name="role" placeholder="Role" value="{{ committee.role }}" required>
+        <input type="password" name="password" placeholder="Password" value="{{ committee.password }}" required>
+        <button type="submit" class="btn">Update Profile</button>
+
+        <!-- Back Button -->
+        <div class="back-container">
+            <a href="{% url 'committee_dashboard' %}" class="circle-back" title="Back Button">←</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

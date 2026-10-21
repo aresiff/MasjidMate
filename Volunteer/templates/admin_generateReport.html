@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generate Event Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd;
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #0d47a1;
+        }
+
+        .form-section {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background-color: #1565c0;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0d47a1;
+        }
+
+        .report {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8bbd0;
+        }
+
+        .print-btn {
+            background-color: #2e7d32;
+            margin-top: 20px;
+        }
+
+        .print-btn:hover{
+            background-color: #1b5e20;
+            margin-top: 20px;
+        }
+
+
+        /* Back Button */
+        .back-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 30px 0;
+        }
+        
+        .circle-back {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 48px;
+        height: 48px;
+        background-color: #1565c0;
+        color: white;
+        font-size: 20px;
+        text-decoration: none;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        .circle-back:hover {
+        background-color: #11529c;
+        transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+<h2>Generate Mosque Event Report</h2>
+
+<div class="form-section">
+    <form method="post">
+        {% csrf_token %}
+        <label for="eventid">Select Event:</label>
+        <select name="eventid" required>
+            <option value="">-- Select Event --</option>
+            {% for event in events %}
+                <option value="{{ event.eventid }}" {% if selected_event and event.eventid == selected_event.eventid %}selected{% endif %}>
+                    {{ event.eventid }} - {{ event.eventname }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn">Generate Report</button>
+
+        <!-- Back Button -->
+        <div class="back-container">
+            <a href="{% url 'admin_dashboard' %}" class="circle-back" title="Back Button">←</a>
+        </div>
+    </form>
+</div>
+
+{% if selected_event %}
+<div class="report" id="report-section">
+    <h3>Event Details</h3>
+    <p><strong>Event ID:</strong> {{ selected_event.eventid }}</p>
+    <p><strong>Event Name:</strong> {{ selected_event.eventname }}</p>
+    <p><strong>Date:</strong> {{ selected_event.eventdate }}</p>
+    <p><strong>Tasks:</strong> {{ selected_event.tasks }}</p>
+    <p><strong>Volunteer Capacity:</strong> {{ selected_event.volcapacity }}</p>
+    <p><strong>Token Criteria:</strong> {{ selected_event.token }}</p>
+    <p><strong>Created By:</strong> {{ selected_event.created_by.name }} ({{ selected_event.created_by.position }}, {{ selected_event.created_by.role }})</p>
+
+    <h3>Volunteer Participants</h3>
+    {% if applications %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Volunteer ID</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+                    <th>Performance</th>
+                    <th>Token Earned</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in applications %}
+                <tr>
+                    <td>{{ app.volunteerid.volunteerid }}</td>
+                    <td>{{ app.volunteerid.name }}</td>
+                    <td>{{ app.volunteerid.contactno }}</td>
+                    <td>{{ app.status }}</td>
+                    <td>{{ app.performancerating|default:"-" }}</td>
+                    <td>{{ app.tokensearned|default:"-" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No volunteers have applied for this event.</p>
+    {% endif %}
+
+    <button class="btn print-btn" onclick="window.print()">Print Report</button>
+    
+</div>
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Record Mosque Event</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #fff3e0, #ffe0b2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .form-box {
+            background-color: #fff;
+            padding: 40px 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+            max-width: 550px;
+            width: 100%;
+            transition: transform 0.3s;
+        }
+
+        .form-box:hover {
+            transform: translateY(-3px);
+        }
+
+        .messages {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .message-box {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .message-box.success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-left: 6px solid #2e7d32;
+        }
+
+        .message-box.error {
+            background-color: #ffebee;
+            color: #c62828;
+            border-left: 6px solid #c62828;
+        }
+
+        h2 {
+            color: #ef6c00;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        input, textarea {
+            width: 100%;
+            margin: 12px 0;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #ef6c00;
+            outline: none;
+        }
+
+        .btn {
+            background-color: #ef6c00;
+            color: white;
+            padding: 14px;
+            border: none;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #e65100;
+            transform: scale(1.02);
+        }
+
+        .back-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        .circle-back {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
+            background-color: #ef6c00;
+            color: white;
+            font-size: 22px;
+            text-decoration: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .circle-back:hover {
+            background-color: #d84315;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 600px) {
+            .form-box {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            input, textarea {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-box">
+
+    <!-- Success/Error Message -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="message-box {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <h2>🕌 Record New Mosque Event</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="eventid" placeholder="Event ID" required>
+        <input type="text" name="eventname" placeholder="Event Name" required>
+        <input type="date" name="eventdate" required>
+        <textarea name="tasks" placeholder="Event Tasks (describe clearly)" rows="3" required></textarea>
+        <input type="number" name="volcapacity" placeholder="Volunteer Capacity (default: 10)" required>
+        <textarea name="token" placeholder="Token Criteria / Rewards (e.g. Certificate, Voucher, etc.)" rows="2" required></textarea>
+
+        <button type="submit" class="btn">📌 Create Event</button>
+
+        <!-- Back Button -->
+        <div class="back-container">
+            <a href="{% url 'committee_dashboard' %}" class="circle-back" title="Back to Dashboard">←</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

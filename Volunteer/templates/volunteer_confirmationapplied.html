@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Event Application</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #e8f5e9, #c8e6c9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            transition: all 0.3s ease;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2e7d32;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        .details {
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .details p {
+            margin: 8px 0;
+        }
+
+        .details strong {
+            color: #1b5e20;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-confirm {
+            background-color: #43a047;
+            color: white;
+        }
+
+        .btn-back {
+            background-color: #c62828;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.95;
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 480px) {
+            .btn-group {
+                flex-direction: column;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📝 Confirm Your Application</h2>
+
+    <div class="details">
+        <p><strong>🆔 Event ID:</strong> {{ event.eventid }}</p>
+        <p><strong>📛 Name:</strong> {{ event.eventname }}</p>
+        <p><strong>📅 Date:</strong> {{ event.eventdate }}</p>
+        <p><strong>🧾 Tasks:</strong> {{ event.tasks }}</p>
+        <p><strong>👥 Capacity:</strong> {{ event.volcapacity }}</p>
+        <p><strong>🎁 Token Info:</strong> {{ event.token }}</p>
+    </div>
+
+    <div class="btn-group">
+        <form action="{% url 'volunteer_apply_confirmed' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="eventid" value="{{ event.eventid }}">
+            <button type="submit" class="btn btn-confirm">✅ Confirm</button>
+        </form>
+
+        <form action="{% url 'volunteer_mosquevent' %}" method="get">
+            <button type="submit" class="btn btn-back">↩️ Back</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
