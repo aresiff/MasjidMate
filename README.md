@@ -1,4 +1,4 @@
-# Volunteer Project
+Diploma's Final Year Project
 
 A Django project for managing mosque volunteers, events, and task applications.
 
